@@ -1,14 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
-import { App } from 'supertest/types';
-import { AppModule } from './../src/app.module';
-import { getPrisma } from './utils';
+import { Test, TestingModule } from "@nestjs/testing";
+import { INestApplication } from "@nestjs/common";
+import request from "supertest";
+import { App } from "supertest/types";
+import { AppModule } from "./../src/app.module";
+import { getPrisma } from "./utils";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const prisma = getPrisma();
 
-describe('UserController (e2e)', () => {
+describe("UserController (e2e)", () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
@@ -20,10 +20,10 @@ describe('UserController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it("/ (GET)", () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get("/")
       .expect(200)
-      .expect('Hello World!');
+      .expect("Hello World!");
   });
 });

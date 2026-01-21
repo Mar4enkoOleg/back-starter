@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { seedDatabase } from './seed-database';
+import { PrismaClient } from "@prisma/client";
+import { seedDatabase } from "./seed-database";
 
 let prisma: PrismaClient;
 
