@@ -1,16 +1,6 @@
 ## Project setup
 
-npm install
-npm run start:db
-...
+docker/.env.example ---> .env
+.env.example ---> .env
 
-```
-    separate terminal --->
-```
-npx prisma generate
-npx prisma migrate dev
-
-```
-    if needed --->
-```
-npx prisma db seed
+go to package.json ---> scripts and find needed command

@@ -8,11 +8,12 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "dev": "ts-node-dev --respawn src/main.ts --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:nodemon": "nodemon --config nodemon.json" ,
-    "start:debug": "nest start --debug --watch",
+    "start:nodemon": "nodemon --config nodemon.json",
+    "start:debug": "rimraf dist && nest build && nest start --debug",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -20,9 +21,15 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "npm run test -- --config ./test/jest-e2e.json -i",
-    "prisma:seed": "npx prisma generate && docker-compose run --rm api npx prisma db seed",
-    "prisma:migrate": "npx prisma generate && docker-compose run npx prisma migrate dev",
-    "start:db": "docker-compose up"
+    "test:e2e:watch": "npm run test -- --config ./test/jest-e2e.json -i --watchAll",
+    "test:unit": "npm run test -- --config ./test/jest-unit.json -i",
+    "test:unit:watch": "npm run test -- --config ./test/jest-unit.json -i --watchAll",
+    "start:db": "docker-compose up",
+    "stop:db": "docker-compose down",
+    "test:e2e:docker": "docker-compose -f ./docker/testing/docker-compose.testing.yml build api && docker-compose -f ./docker/testing/docker-compose.testing.yml run --rm -it api sh -c \"npx prisma migrate deploy && npm run test:e2e\"; docker-compose -f ./docker/testing/docker-compose.testing.yml down",
+    "test:e2e:watch:docker": "docker-compose -f ./docker/testing/docker-compose.testing.yml build api && docker-compose -f ./docker/testing/docker-compose.testing.yml run --rm -it api sh -c \"npx prisma migrate deploy && npm run test:e2e:watch\"; docker-compose -f ./docker/testing/docker-compose.testing.yml down",
+    "test:unit:docker": "docker-compose -f ./docker/testing/docker-compose.testing.yml build api && docker-compose -f ./docker/testing/docker-compose.testing.yml run --rm -it api sh -c \"npx prisma migrate deploy && npm run test:unit\"; docker-compose -f ./docker/testing/docker-compose.testing.yml down",
+    "test:unit:watch:docker": "docker-compose -f ./docker/testing/docker-compose.testing.yml build api && docker-compose -f ./docker/testing/docker-compose.testing.yml run --rm -it api sh -c \"npx prisma migrate deploy && npm run test:unit:watch\"; docker-compose -f ./docker/testing/docker-compose.testing.yml down"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -33,7 +40,6 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "dayjs": "^1.11.18",
-    "prisma": "^6.16.1",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.1",
     "run": "^1.5.0",
@@ -50,6 +56,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
+    "dotenv": "^17.2.3",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
@@ -57,18 +64,16 @@
     "jest": "^30.0.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.4.2",
+    "prisma": "^6.19.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
-  },
-  "prisma": {
-    "schema": "src/database/schema.prisma",
-    "seed": "ts-node src/database/seeders"
   },
   "jest": {
     "moduleFileExtensions": [

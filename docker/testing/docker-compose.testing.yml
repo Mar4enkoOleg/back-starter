@@ -1,0 +1,22 @@
+services:
+  database:
+    container_name: personal_testing_database
+    hostname: database
+    build: ../database
+    env_file: './.e2e.env'
+    ports:
+      - 5432:5432
+
+  api:
+    container_name: personal_testing_api
+    hostname: api
+    build:
+      context: ../..
+      dockerfile: docker/testing/Dockerfile
+    volumes:
+      - ../..:/app
+      - '/app/node_modules'
+    env_file: './.e2e.env'
+    depends_on:
+      database:
+        condition: service_started
