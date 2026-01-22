@@ -3,6 +3,10 @@
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
+  "testTimeout": 20000,
+  "logHeapUsage": true,
+  "workerIdleMemoryLimit": "2000MB",
+  "restoreMocks": true,
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   }
